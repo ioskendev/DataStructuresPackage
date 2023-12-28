@@ -23,8 +23,8 @@ struct QueueList<T: Equatable> {
 	
 	/// Appending value to queue list
 	/// - Parameter value: Equatable value to appending to linked list
-	mutating func enqueue(_ value: T) {
-		linkedList.append(value)
+	mutating func enqueue(_ element: T) {
+		linkedList.append(element)
 	}
 	
 	/// Cut value from start of the list
@@ -35,13 +35,7 @@ struct QueueList<T: Equatable> {
 	
 	/// Adding value to beginning of the list.
 	/// - Returns: Adding value if adding was success (else return nil)
-	mutating func peek() -> T? {
-		guard let result = linkedList.pop() else { return nil }
-
-		defer {
-			linkedList.push(result)
-		}
-
-		return result
+	var peek: T? {
+		linkedList.value(at: 0)
 	}
 }

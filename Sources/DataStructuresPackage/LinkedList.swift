@@ -40,21 +40,15 @@ struct LinkedList<T: Equatable> {
 	private var head: Node<T>?
 	private var tail: Node<T>?
 
-
-	/// Invariand of count swored
-	private var countStore = 0
-
 	/// Return elements count result.
 	///
 	/// - Complexity: O(1).
-	var count: Int {
-		countStore
-	}
+	private(set) var count = 0
 
 	/// Returns bool, with empty or not LinkedList meaneng.
 	/// - Complexity: O(1).
 	var isEmpty: Bool {
-		head == nil
+		head == nil && tail == nil
 	}
 
 	/// LinkedList init.
@@ -70,15 +64,13 @@ struct LinkedList<T: Equatable> {
 	/// - Complexity: O(1).
 	/// - Parameter value: Equatable type value to adding to LinkedList to tail(beginning).
 	mutating func push(_ value: T) {
-		head = Node(value, next: head)
+		let newNode = Node(value, next: head)
+		head?.previous = newNode
+		head = newNode
 
-		if tail == nil {
-			tail = head
-		} else {
-			head?.next?.previous = head // Update next node link to previous node
-		}
+		if tail == nil { tail = head }
 
-		countStore += 1
+		count += 1
 	}
 
 	/// Adding value to head(end) of list.
@@ -86,30 +78,20 @@ struct LinkedList<T: Equatable> {
 	/// - Complexity: O(1).
 	/// - Parameter value: Value to adding to list.
 	mutating func append(_ value: T) {
+		let newNode = Node(value, previous: tail)
+		tail?.next = newNode
+		tail = newNode
 
-		if head == nil {
-			push(value)
-			return
-		}
+		if tail == nil { head = tail }
 
-		let node = Node(value, previous: tail)
-
-		if tail == nil {
-			head = node
-		} else {
-			tail?.next = node // Update current tail link to next node
-		}
-
-		tail = node // Update tail of list
-
-		countStore += 1
+		count += 1
 	}
 
 	/// Inserting value to middle of list.
 	///
 	/// - Complexity: O(n).
 	/// - Parameters:
-	///   - value: Value to adding to list.
+	///   - value: Value to adding to middle of list.
 	///   - index: index, after wich will be inserting.
 	mutating func insert(_ value: T, after index: Int) {
 		guard let currentNode = node(at: index) else { return }
@@ -122,7 +104,7 @@ struct LinkedList<T: Equatable> {
 			tail = newNode
 			}
 
-		countStore += 1
+		count += 1
 	}
 
 	/// Cut value from start of list.
@@ -134,28 +116,22 @@ struct LinkedList<T: Equatable> {
 		head = currentHead.next
 		head?.previous = nil
 		if isEmpty { tail = nil }
-		countStore -= 1
+		count -= 1
 		return currentHead.value
 	}
 
 	/// Cut value from end of list.
 	///
-	/// - Complexity: O(n).
+	/// - Complexity: O(1).
 	/// - Returns: Cuting value from end of list.
 	mutating func removeLast() -> T? {
-		defer {
-			tail = tail?.previous
+		guard let currentTail = tail else { return nil }
+		tail = currentTail.previous
+		tail?.next = nil
+		if isEmpty { head = nil }
 
-			tail?.next = nil
-
-			if isEmpty {
-				head = nil
-			}
-		}
-
-		countStore -= 1
-
-		return tail?.value
+		count -= 1
+		return currentTail.value
 	}
 
 	/// Cut value from middle of list after index.
@@ -170,7 +146,7 @@ struct LinkedList<T: Equatable> {
 				currentNode.next = nextNode.next
 				nextNode.next?.previous = currentNode
 			}
-		countStore -= 1
+		count -= 1
 		return nextNode.value
 	}
 
@@ -208,6 +184,13 @@ struct LinkedList<T: Equatable> {
 		}
 
 		return nil
+	}
+
+	/// Return value from index.
+	/// - Parameter index: index of target value.
+	/// - Returns: Value.
+	func value(at index: Int) -> T? {
+		node(at: index)?.value
 	}
 }
 
@@ -256,7 +239,7 @@ extension LinkedList: CustomStringConvertible {
 			current = current?.next
 		}
 
-		return values.joined(separator: " -> ")
+		return "count = \(count); list = " + values.joined(separator: " <-> ")
 
 	}
 }

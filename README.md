@@ -4,7 +4,7 @@ Package is contains classes with data structures classes.
 
 LinkesList class:
 
-## Описание пакета
+## Pachaje description
 
 Struct `LinkedList`, is contains list of Nodes and prevent managing of it:
 
@@ -15,4 +15,4 @@ Struct `LinkedList`, is contains list of Nodes and prevent managing of it:
 
 
 
-## UML-схема 
+## UML-scheme 

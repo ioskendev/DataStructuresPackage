@@ -10,7 +10,7 @@ import Foundation
 /// Linear twosided list.
 struct LinkedList<T: Equatable> {
 
-	/// Узел линейного списка.
+	/// Two linear node.
 	final class Node<N>: CustomStringConvertible {
 		/// Value was stored in node.
 		var value: N
@@ -115,7 +115,7 @@ struct LinkedList<T: Equatable> {
 		guard let currentHead = head else { return nil }
 		head = currentHead.next
 		head?.previous = nil
-		if isEmpty { tail = nil }
+		if head == nil { tail = nil }
 		count -= 1
 		return currentHead.value
 	}
@@ -128,7 +128,7 @@ struct LinkedList<T: Equatable> {
 		guard let currentTail = tail else { return nil }
 		tail = currentTail.previous
 		tail?.next = nil
-		if isEmpty { head = nil }
+		if tail == nil { head = nil }
 
 		count -= 1
 		return currentTail.value

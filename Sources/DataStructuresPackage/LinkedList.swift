@@ -8,7 +8,7 @@
 import Foundation
 
 /// Linear twosided list.
-struct LinkedList<T: Equatable> {
+public struct LinkedList<T: Equatable> {
 
 	/// Two linear node.
 	final class Node<N>: CustomStringConvertible {
@@ -53,7 +53,7 @@ struct LinkedList<T: Equatable> {
 
 	/// LinkedList init.
 	/// - Parameter value: Create LinkedList with Equatable type value parameter.
-	init(value: T? = nil) {
+	public init(value: T? = nil) {
 		if let value = value {
 			push(value)
 		}
@@ -63,7 +63,7 @@ struct LinkedList<T: Equatable> {
 	///
 	/// - Complexity: O(1).
 	/// - Parameter value: Equatable type value to adding to LinkedList to tail(beginning).
-	mutating func push(_ value: T) {
+	public mutating func push(_ value: T) {
 		let newNode = Node(value, next: head)
 		head?.previous = newNode
 		head = newNode
@@ -77,7 +77,7 @@ struct LinkedList<T: Equatable> {
 	///
 	/// - Complexity: O(1).
 	/// - Parameter value: Value to adding to list.
-	mutating func append(_ value: T) {
+	public mutating func append(_ value: T) {
 		let newNode = Node(value, previous: tail)
 		tail?.next = newNode
 		tail = newNode
@@ -93,7 +93,7 @@ struct LinkedList<T: Equatable> {
 	/// - Parameters:
 	///   - value: Value to adding to middle of list.
 	///   - index: index, after wich will be inserting.
-	mutating func insert(_ value: T, after index: Int) {
+	public mutating func insert(_ value: T, after index: Int) {
 		guard let currentNode = node(at: index) else { return }
 		let nextNode = currentNode.next
 		let newNode = Node(value, previous: currentNode, next: nextNode)
@@ -124,7 +124,7 @@ struct LinkedList<T: Equatable> {
 	///
 	/// - Complexity: O(1).
 	/// - Returns: Cuting value from end of list.
-	mutating func removeLast() -> T? {
+	public mutating func removeLast() -> T? {
 		guard let currentTail = tail else { return nil }
 		tail = currentTail.previous
 		tail?.next = nil
@@ -153,7 +153,7 @@ struct LinkedList<T: Equatable> {
 	/// Cut value from middle of list where value is same as first of value of list.
 	/// - Parameter value: Value which will be find first of value from list to cutting and return index.
 	/// - Returns: if cutting is succesful returns index of cutting element.
-	mutating func remove(first value: T) -> Int? {
+	public mutating func remove(first value: T) -> Int? {
 		guard let index = find(value: value) else { return nil }
 
 		if index == 0 {
@@ -168,7 +168,7 @@ struct LinkedList<T: Equatable> {
 	/// Find node from value in parameter.
 	/// - Parameter element: Value to cuttring node.
 	/// - Returns: Index of cutting node.
-	mutating func find(value: T) -> Int? {
+	public mutating func find(value: T) -> Int? {
 		guard let head = head else { return nil }
 		guard head.value != value else { return 0 }
 
@@ -189,7 +189,7 @@ struct LinkedList<T: Equatable> {
 	/// Return value from index.
 	/// - Parameter index: index of target value.
 	/// - Returns: Value.
-	func value(at index: Int) -> T? {
+	public func value(at index: Int) -> T? {
 		node(at: index)?.value
 	}
 }
@@ -230,7 +230,7 @@ private extension LinkedList {
 extension LinkedList: CustomStringConvertible {
 	
 	/// LinkedList CustomStringConvertible description realisation
-	var description: String {
+	public var description: String {
 		var values = [String]()
 		var current = head
 

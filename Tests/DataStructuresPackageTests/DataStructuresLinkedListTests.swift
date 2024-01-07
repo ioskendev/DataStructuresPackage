@@ -1,16 +1,14 @@
+//
+//  DataStructuresQueueListTests.swift
+//
+//
+//  Created by ioskendev team on 08.01.2024.
+//
+
 import XCTest
 @testable import DataStructuresPackage
 
 final class DataStructuresLinkedListTests: XCTestCase {
-
-	enum ValuesStub: Int {
-		case two = 2
-		case three = 3
-		case five = 5
-		case nine = 9
-		case failIntTestValue = 999999 // value to test failing variant
-	}
-
 	private var sut: LinkedList<Int>!
 
 	override func setUp() {
@@ -21,13 +19,44 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		sut = nil
 	}
 
+	func test_count_shouldBeSameAsValuesInLinkedList() throws {
+		let newValue = ValuesStub.firstValue
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init with LinkedList without value: LinkedList<Int>()")
+
+		sut.append(newValue.rawValue)
+
+		XCTAssertEqual(sut.count, 1, "Sut count must be 1 after appending 1 value")
+
+		sut.append(newValue.rawValue)
+
+		XCTAssertEqual(sut.count, 2, "Sut count must be 2 after appending 2 values")
+
+		sut.append(newValue.rawValue)
+
+		XCTAssertEqual(sut.count, 3, "Sut count must be 3 after appending 3 values")
+
+		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
+
+		XCTAssertEqual(sut.count, 2, "Sut count must be 2 after removing value from 3 values in LinkedList")
+
+		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
+		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
+
+		XCTAssertEqual(sut.count, 0, "Sut count must be 2 after appending 2 values")
+
+		XCTAssertNil(sut.removeLast(), "Nothing to remove - must return nil")
+
+		XCTAssertTrue(sut.isEmpty, "List must be empty after trying to remove from empty list")
+	}
+
 	func test_isEmpty_shouldBeFalseWhenLinkedListWithValues() throws {
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init with LinkedList without value: LinkedList<Int>()")
 	}
 
 	func test_push_sutShouldContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.five
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.fhirdValue
 		let failIntTestValue = ValuesStub.failIntTestValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
@@ -52,8 +81,8 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_append_sutShouldContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.five
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.fhirdValue
 		let failIntTestValue = ValuesStub.failIntTestValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
@@ -72,10 +101,9 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_insert_sutShouldContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.three
-		let thirdValue = ValuesStub.five
-		let failIntTestValue = ValuesStub.failIntTestValue
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.secondValue
+		let thirdValue = ValuesStub.fhirdValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
@@ -102,8 +130,8 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_pop_sutShouldNotContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.three
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.secondValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
@@ -129,8 +157,8 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_removeLast_sutShouldNotContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.three
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.secondValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
@@ -156,8 +184,8 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_removeAfterIndex_sutShouldNotContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.three
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.secondValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
@@ -187,10 +215,10 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_removeFirstValue_sutShouldNotContainValues() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.three
-		let thirdValue = ValuesStub.five
-		let fouthValue = ValuesStub.nine
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.secondValue
+		let thirdValue = ValuesStub.fhirdValue
+		let fouthValue = ValuesStub.fouthValue
 		
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 		
@@ -208,10 +236,10 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_value_sutShouldContainsTargetValue() {
-		let firstValue = ValuesStub.two
-		let secondValue = ValuesStub.three
-		let thirdValue = ValuesStub.five
-		let fouthValue = ValuesStub.nine
+		let firstValue = ValuesStub.firstValue
+		let secondValue = ValuesStub.secondValue
+		let thirdValue = ValuesStub.fhirdValue
+		let fouthValue = ValuesStub.fouthValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 

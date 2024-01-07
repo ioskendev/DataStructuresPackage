@@ -1,14 +1,37 @@
 import XCTest
 @testable import DataStructuresPackage
 
-final class DataStructuresPackageTests: XCTestCase {
-    func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
+final class DataStructuresLinkedListTests: XCTestCase {
 
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
-    }
+	enum ValuesStub: Int {
+		case five = 5
+	}
+
+	private var sut: LinkedList<Int>!
+
+	override func setUp() {
+		sut = LinkedList<Int>()
+	}
+
+	override func tearDown() {
+		sut = nil
+	}
+
+	func test_isEmpty_shouldBeFalseWhenLinkedListWithValues() throws {
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+	}
+
+	func test_push_sutShouldContainValue() {
+		let newValue = ValuesStub.five
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		sut.push(newValue.rawValue)
+
+		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we pushing newValue: sut.push(newValue)")
+
+		XCTAssertNotNil(sut.find(value: newValue.rawValue), "LinkedList can't be empty becouse we pushing new value: sut.push(newValue)")
+	}
 }
 
 // TODO: make test with LinkedList

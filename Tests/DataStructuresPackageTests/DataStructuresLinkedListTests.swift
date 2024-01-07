@@ -4,7 +4,11 @@ import XCTest
 final class DataStructuresLinkedListTests: XCTestCase {
 
 	enum ValuesStub: Int {
+		case two = 2
+		case three = 3
 		case five = 5
+		case nine = 9
+		case failIntTestValue = 999999 // value to test failing variant
 	}
 
 	private var sut: LinkedList<Int>!
@@ -18,19 +22,54 @@ final class DataStructuresLinkedListTests: XCTestCase {
 	}
 
 	func test_isEmpty_shouldBeFalseWhenLinkedListWithValues() throws {
-		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init with LinkedList without value: LinkedList<Int>()")
 	}
 
-	func test_push_sutShouldContainValue() {
-		let newValue = ValuesStub.five
+	func test_push_sutShouldContainValues() {
+		let firstValue = ValuesStub.two
+		let secondValue = ValuesStub.five
+		let failIntTestValue = ValuesStub.failIntTestValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
-		sut.push(newValue.rawValue)
+		sut.push(firstValue.rawValue)
 
 		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we pushing newValue: sut.push(newValue)")
 
-		XCTAssertNotNil(sut.find(value: newValue.rawValue), "LinkedList can't be empty becouse we pushing new value: sut.push(newValue)")
+		XCTAssertNotNil(sut.find(value: firstValue.rawValue), "LinkedList must contain newValue becouse we has pushed new value: sut.push(firstValue)")
+
+		sut.push(secondValue.rawValue)
+
+		XCTAssertNotNil(sut.find(value: secondValue.rawValue), "LinkedList must contain secondValue becouse we has pushed secondValue: sut.push(secondValue)")
+
+		XCTAssertNil(sut.find(value: failIntTestValue.rawValue), "LinkedList can't contain failIntTestValue becouse we don't pushing failIntTestValue")
+
+		XCTAssertEqual(
+			sut.count,
+			2,
+			"Количество незавершенных задач в task manager не соответствует исходным параметрам"
+		)
+
+	}
+
+	func test_append_sutShouldContainValues() {
+		let firstValue = ValuesStub.two
+		let secondValue = ValuesStub.five
+		let failIntTestValue = ValuesStub.failIntTestValue
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		sut.append(firstValue.rawValue)
+
+		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we pushing newValue: sut.push(newValue)")
+
+		XCTAssertNotNil(sut.find(value: firstValue.rawValue), "LinkedList must contain newValue becouse we has pushed with new value: sut.push(firstValue)")
+
+		sut.append(secondValue.rawValue)
+
+		XCTAssertNotNil(sut.find(value: secondValue.rawValue), "LinkedList must contain secondValue becouse we has pushed secondValue: sut.push(secondValue)")
+
+		XCTAssertNil(sut.find(value: failIntTestValue.rawValue), "LinkedList can't contain failIntTestValue becouse we don't pushing failIntTestValue")
 	}
 }
 

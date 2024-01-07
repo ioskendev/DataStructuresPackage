@@ -49,7 +49,6 @@ final class DataStructuresLinkedListTests: XCTestCase {
 			2,
 			"Количество незавершенных задач в task manager не соответствует исходным параметрам"
 		)
-
 	}
 
 	func test_append_sutShouldContainValues() {
@@ -70,6 +69,63 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertNotNil(sut.find(value: secondValue.rawValue), "LinkedList must contain secondValue becouse we has pushed secondValue: sut.push(secondValue)")
 
 		XCTAssertNil(sut.find(value: failIntTestValue.rawValue), "LinkedList can't contain failIntTestValue becouse we don't pushing failIntTestValue")
+	}
+
+	func test_insert_sutShouldContainValues() {
+		let firstValue = ValuesStub.two
+		let secondValue = ValuesStub.three
+		let thirdValue = ValuesStub.five
+		let failIntTestValue = ValuesStub.failIntTestValue
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		sut.insert(firstValue.rawValue, after: 0)
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value and we can't insert value after not existing element (no index found must be found in LinkedList): LinkedList<Int>() -> sut.insert(firstValue.rawValue, after: 0) must add no values")
+
+		sut.append(firstValue.rawValue)
+
+		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we append firstValue: sut.push(firstValue)")
+		XCTAssertEqual(sut.count, 1, "sut count must be 2 after appending 2 values")
+
+		sut.append(secondValue.rawValue)
+
+		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
+
+		sut.insert(thirdValue.rawValue, after: 0)
+
+		XCTAssertNotNil(sut.find(value: thirdValue.rawValue), "LinkedList must contain thirdValue becouse we was insert thirdValue: sut.insert(thirdValue.rawValue, after: 0)")
+
+		sut.insert(firstValue.rawValue, after: 10)
+
+		XCTAssertEqual(sut.count, 3, "sut count must be 3 becouse we have only 3 values and haven't index more than (3 - 1 = 2)")
+	}
+
+	func test_pop_sutShouldNotContainValues() {
+		let firstValue = ValuesStub.two
+		let secondValue = ValuesStub.three
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		XCTAssertNil(sut.pop(), "Nothing to pop from empty list")
+
+		sut.append(firstValue.rawValue)
+
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after appending 1 value")
+
+		sut.append(secondValue.rawValue)
+
+		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
+
+		XCTAssertEqual(sut.pop(), firstValue.rawValue, "Must cut value from start of list. pop() must returns firstValue from list")
+
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after sut.pop()")
+
+		XCTAssertEqual(sut.pop(), secondValue.rawValue, "Must cut value from start of list. pop() must returns secondValue from list")
+
+		XCTAssertEqual(sut.count, 0, "sut count must be 0 after pop 2 values from 2 values list")
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
 	}
 }
 

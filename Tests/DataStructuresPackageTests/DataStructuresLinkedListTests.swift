@@ -206,6 +206,22 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertEqual(sut.count, 3, "sut count must be 3 after removing 1 value from list of 4 values")
 		XCTAssertNotEqual(sut.find(value: thirdValue.rawValue), thirdValue.rawValue, "sut count must be 1 after removing")
 	}
+
+	func test_value_sutShouldContainsTargetValue() {
+		let firstValue = ValuesStub.two
+		let secondValue = ValuesStub.three
+		let thirdValue = ValuesStub.five
+		let fouthValue = ValuesStub.nine
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		sut.append(firstValue.rawValue)
+		sut.append(secondValue.rawValue)
+		sut.append(thirdValue.rawValue)
+		sut.append(fouthValue.rawValue)
+
+		XCTAssertEqual(sut.value(at: 2), thirdValue.rawValue, "sut.value(at: 2) must return thirdValue becouse it was appended 3th at line")
+	}
 }
 
 // TODO: make test with LinkedList

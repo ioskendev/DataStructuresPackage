@@ -154,6 +154,39 @@ final class DataStructuresLinkedListTests: XCTestCase {
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
 	}
+
+	func test_removeAfterIndex_sutShouldNotContainValues() {
+		let firstValue = ValuesStub.two
+		let secondValue = ValuesStub.three
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		XCTAssertNil(sut.remove(after: 0), "Nothing to remove from empty list")
+		XCTAssertNil(sut.remove(after: 10), "Nothing to remove from empty list")
+		XCTAssertNil(sut.remove(after: -10), "Nothing to remove from empty list")
+
+		sut.append(firstValue.rawValue)
+
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after appending 1 value")
+
+		sut.append(secondValue.rawValue)
+
+		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
+
+		XCTAssertNotEqual(sut.remove(after: -1), firstValue.rawValue, "Must nothing to delete becouse it is not valid index")
+
+		XCTAssertEqual(sut.remove(after: 0), secondValue.rawValue, "Must delete secondValue becouse it was append after firstValue with zero(0) index")
+
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after removing")
+
+		XCTAssertEqual(sut.removeLast(), firstValue.rawValue, "Must cut value from end of list. pop() must returns firstValue from list")
+
+		XCTAssertEqual(sut.count, 0, "sut count must be 0 after removing 2 values from 2 values list")
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
+	}
+
+
 }
 
 // TODO: make test with LinkedList

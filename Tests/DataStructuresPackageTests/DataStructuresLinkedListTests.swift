@@ -70,10 +70,10 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertEqual(sut.count, 2, "sut.count of values must be 2 after pushing 2 values to empty list")
 	}
 
+	/// This method do complexy checking of sut.append method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we appending first value and do some checks - list cant be empty and sut must find same value we was appended. 2. We append second value to nonempty list and sut.append method must insert secondValue at the end of list at 0 index position.
 	func test_append_sutShouldContainValues() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.fhirdValue
-		let failIntTestValue = ValuesStub.failIntTestValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
@@ -85,41 +85,35 @@ final class DataStructuresLinkedListTests: XCTestCase {
 
 		sut.append(secondValue.rawValue)
 
-		XCTAssertNotNil(sut.find(value: secondValue.rawValue), "LinkedList must contain secondValue becouse we has pushed secondValue: sut.push(secondValue)")
-
-		XCTAssertNil(sut.find(value: failIntTestValue.rawValue), "LinkedList can't contain failIntTestValue becouse we don't pushing failIntTestValue")
+		XCTAssertEqual(sut.find(value: secondValue.rawValue), 1, "secondValue must be append only at the end of list")
+		XCTAssertEqual(sut.count, 2, "sut.count of values must be 2 after appending 2 values to empty list")
 	}
 
-	func test_insert_sutShouldContainValues() {
+	/// This method do complexy checking of sut.insert method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to insert first value into empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some value to get nonempty list to continues test with inserting. 3. We insert second value to nonempty list and sut.insert(after: 0) method must insert secondValue after firstValue rawValue. 3) We must to try value between 2 values to exclude append and insert results.
+	func test_insert_sutShouldContainValuesOnpositionsAfterInsertingTargetIndex() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
 		let thirdValue = ValuesStub.fhirdValue
 
-		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it was init without value: LinkedList<Int>()")
 
 		sut.insert(firstValue.rawValue, after: 0)
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value and we can't insert value after not existing element (no index found must be found in LinkedList): LinkedList<Int>() -> sut.insert(firstValue.rawValue, after: 0) must add no values")
 
 		sut.append(firstValue.rawValue)
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after appending value")
 
-		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we append firstValue: sut.push(firstValue)")
-		XCTAssertEqual(sut.count, 1, "sut count must be 2 after appending 2 values")
-
-		sut.append(secondValue.rawValue)
-
-		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
+		sut.insert(secondValue.rawValue, after: 0)
+		XCTAssertEqual(sut.find(value: secondValue.rawValue), 1, "LinkedList must contain secondValue becouse we was insert secondValue after firstValue: sut.insert(thirdValue.rawValue, after: 0)")
 
 		sut.insert(thirdValue.rawValue, after: 0)
-
-		XCTAssertNotNil(sut.find(value: thirdValue.rawValue), "LinkedList must contain thirdValue becouse we was insert thirdValue: sut.insert(thirdValue.rawValue, after: 0)")
-
-		sut.insert(firstValue.rawValue, after: 10)
-
-		XCTAssertEqual(sut.count, 3, "sut count must be 3 becouse we have only 3 values and haven't index more than (3 - 1 = 2)")
+		XCTAssertEqual(sut.find(value: thirdValue.rawValue), 1, "Third value must be inserted between firstValue and secondValue in second position with index 1")
+		XCTAssertEqual(sut.count, 3, "Cheking of more then 2 elements existsut count must be 3 becouse we was apended and inserted 3 valies and sut.insert(thirdValue.rawValue, after: 0) on second position")
 	}
-
-	func test_pop_sutShouldNotContainValues() {
+	
+	/// This method do complexy checking of sut.pop method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to pop value from empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some values to get nonempty list to continues test with pop. 3. We insert second value to nonempty list and sut.insert(after: 0) method must insert secondValue after firstValue rawValue. 3) We must to try value between 2 values to exclude append and insert results.
+	func test_pop_sutShouldDeleteValuesFromEndOfListAndNotContainValuesAtTheEndOfTests() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
 
@@ -128,19 +122,13 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertNil(sut.pop(), "Nothing to pop from empty list")
 
 		sut.append(firstValue.rawValue)
-
-		XCTAssertEqual(sut.count, 1, "sut count must be 1 after appending 1 value")
-
 		sut.append(secondValue.rawValue)
-
 		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
 
-		XCTAssertEqual(sut.pop(), firstValue.rawValue, "Must cut value from start of list. pop() must returns firstValue from list")
-
+		XCTAssertEqual(sut.pop(), firstValue.rawValue, "Must cut value from start of list. pop() must returns firstValue from list, not secondValue")
 		XCTAssertEqual(sut.count, 1, "sut count must be 1 after sut.pop()")
 
-		XCTAssertEqual(sut.pop(), secondValue.rawValue, "Must cut value from start of list. pop() must returns secondValue from list")
-
+		XCTAssertEqual(sut.pop(), secondValue.rawValue, "Must cut value from start of list with 1 element. pop() must returns secondValue from list becouse we was poping firstValue in previous test")
 		XCTAssertEqual(sut.count, 0, "sut count must be 0 after pop 2 values from 2 values list")
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")

@@ -82,7 +82,7 @@ public struct LinkedList<T: Equatable> {
 		tail?.next = newNode
 		tail = newNode
 
-		if tail == nil { head = tail }
+		if head == nil { head = tail }
 
 		count += 1
 	}
@@ -157,10 +157,10 @@ public struct LinkedList<T: Equatable> {
 		guard let index = find(value: value) else { return nil }
 
 		if index == 0 {
-			pop()
+			_ = pop()
 			return 0
 		} else {
-			remove(after: index - 1)
+			_ = remove(after: index - 1)
 			return index
 		}
 	}

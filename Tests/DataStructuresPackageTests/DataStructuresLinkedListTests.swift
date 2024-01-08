@@ -9,6 +9,13 @@ import XCTest
 @testable import DataStructuresPackage
 
 final class DataStructuresLinkedListTests: XCTestCase {
+	enum ValuesStub: Int {
+		case firstValue = 2
+		case secondValue = 3
+		case fhirdValue = 5
+		case fouthValue = 9
+	}
+
 	private var sut: LinkedList<Int>!
 
 	override func setUp() {
@@ -155,8 +162,8 @@ final class DataStructuresLinkedListTests: XCTestCase {
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
 	}
-	
-	/// This method do complexy checking of sut.removeAfterIndex method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to sut.remove(after: 0) value from empty list (it must be nil becouse nothing to remove from empty list). 2) We need to append some values to get nonempty list to continues test with removeLast method (appending 2 values). 3) We try to remove value from index out of range. 4) .
+
+	/// This method do complexy checking of sut.removeAfterIndex method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to sut.remove(after: 0) value from empty list (it must be nil becouse nothing to remove from empty list). 2) We need to append some values to get nonempty list to continues test with removeLast method (appending 2 values). 3) We try to remove value from index out of range. 4).
 	func test_removeAfterIndex_mustRemoveValueAfteerTargetIndexAndSutShouldContainOneValueAtTheEndOfTests() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
@@ -185,6 +192,7 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertFalse(sut.isEmpty, "LinkedList canэ't be empty becouse sut.remove(after: ) can't delete first element")
 	}
 
+	/// This method do complexy checking of sut.removeFirst finded Value as we give to find with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to sut.remove(first: thirdValue.rawValue value from empty list (it must be nil becouse sut.isEmpty is true). 2) We need to append some values to get nonempty list to continues test with removeLast method (appending 4 values to correct testing of serching method of sut.remove(first) method). 3) We try to remove thirdValue now where we addended thirdValue in second case of testing AND it must return 2 index of 3-th position of thirdValue AND sut.count must be 3 after removing value from 4 valueslist. 4). After all we cant to find thirdValue and cant to remove it.
 	func test_removeFirstValue_sutShouldNotContainValues() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
@@ -199,20 +207,23 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		sut.append(secondValue.rawValue)
 		sut.append(thirdValue.rawValue)
 		sut.append(fouthValue.rawValue)
-		
+
 		XCTAssertEqual(sut.remove(first: thirdValue.rawValue), 2, "Must delete thirdValue with 2 index")
-		
 		XCTAssertEqual(sut.count, 3, "sut count must be 3 after removing 1 value from list of 4 values")
 		XCTAssertNotEqual(sut.find(value: thirdValue.rawValue), thirdValue.rawValue, "sut count must be 1 after removing")
+		XCTAssertNil(sut.remove(first: thirdValue.rawValue), "Must be nil becouse we removing it in previous test")
 	}
 
-	func test_value_sutShouldContainsTargetValue() {
+	/// This method do complexy checking of sut.value from index with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to find any value with must be nil result. 2) We need to append some values to get nonempty list to continues test (appending 4 values to correct testing of serching method of sut.remove(first) method). 3) After adding values we try to find at same index 2 where we must find thirdValue.
+	func test_value_sutShouldContainsTargetValueAfterAppending() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
 		let thirdValue = ValuesStub.fhirdValue
 		let fouthValue = ValuesStub.fouthValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+
+		XCTAssertNil(sut.value(at: 2), "must be nil becouse nothing to find in empty list")
 
 		sut.append(firstValue.rawValue)
 		sut.append(secondValue.rawValue)
@@ -222,68 +233,3 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertEqual(sut.value(at: 2), thirdValue.rawValue, "sut.value(at: 2) must return thirdValue becouse it was appended 3th at line")
 	}
 }
-
-// TODO: make test with LinkedList
-
-//var list = LinkedList<Int>()
-//
-//list.push(5)
-//list.push(2)
-//
-//print(list) // 2 -> 5
-//list.append(3)
-//list.append(9)
-//
-//print(list) // 2 -> 5 -> 3 -> 9
-//list.insert(1, after: 1)
-//
-//print(list) // 2 -> 5 -> 1 -> 3 -> 9
-//list.pop()
-//
-//print(list) // 5 -> 1 -> 3 -> 9
-//list.removeLast()
-//
-//print(list) // 5 -> 1 -> 3
-//list.remove(after: 0)
-//
-//print(list) // 5 -> 3
-//list.append(4)
-//list.append(9)
-//
-//print(list) // 5 -> 3 -> 4 -> 9
-//list.remove(first: 4)
-//list.remove(after: 0)
-//
-//print(list) // 5 -> 9
-
-// TODO: to make tests with queueList
-
-//var queueList = QueueList<String>()
-//
-//queueList.enqueue("First")
-//queueList.enqueue("Second")
-//queueList.enqueue("Third")
-//queueList.enqueue("Fouth")
-//queueList.enqueue("Firth")
-//
-//queueList.isEmpty
-//
-//queueList.count
-//
-//print(queueList)
-//
-//queueList.dequeue()
-//
-//queueList.count
-//
-//print(queueList)
-//
-//queueList.dequeue()
-//
-//queueList.count
-//
-//print(queueList)
-//
-//queueList.peek()
-//
-//print(queueList)

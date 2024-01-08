@@ -8,8 +8,9 @@
 import XCTest
 @testable import DataStructuresPackage
 
-final class DataStructuresLinkedListTests: XCTestCase {
-	enum ValuesStub: Int {
+final class LinkedListTests: XCTestCase {
+
+	private enum ValuesStub: Int {
 		case firstValue = 2
 		case secondValue = 3
 		case fhirdValue = 5
@@ -86,9 +87,9 @@ final class DataStructuresLinkedListTests: XCTestCase {
 
 		sut.append(firstValue.rawValue)
 
-		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we pushing newValue: sut.push(newValue)")
+		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we appending newValue: sut.append(newValue)")
 
-		XCTAssertNotNil(sut.find(value: firstValue.rawValue), "LinkedList must contain newValue becouse we has pushed with new value: sut.push(firstValue)")
+		XCTAssertNotNil(sut.find(value: firstValue.rawValue), "LinkedList must contain newValue becouse we has appended with new value: sut.append(firstValue)")
 
 		sut.append(secondValue.rawValue)
 
@@ -96,7 +97,7 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertEqual(sut.count, 2, "sut.count of values must be 2 after appending 2 values to empty list")
 	}
 
-	/// This method do complexy checking of sut.insert method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to insert first value into empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some value to get nonempty list to continues test with inserting. 3. We insert second value to nonempty list and sut.insert(after: 0) method must insert secondValue after firstValue rawValue. 3) We must to try value between 2 values to exclude append and insert results.
+	/// This method do complexy checking of sut.insert method with starting from empty list. 1.) After checking sut.isEmpty(must be true - empty) we try to insert first value after value with 0 index (it must be nil becouse no values must be found in list). 2.) We need to append or push some value to get nonempty list to continues test with inserting. 3.) We insert second value to nonempty list and sut.insert(after: 0) method must insert secondValue after firstValue rawValue. 4) We must to try insert value between 2 values to exclude append and push results.
 	func test_insert_sutShouldContainValuesOnpositionsAfterInsertingTargetIndex() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
@@ -119,7 +120,7 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertEqual(sut.count, 3, "Cheking of more then 2 elements existsut count must be 3 becouse we was apended and inserted 3 valies and sut.insert(thirdValue.rawValue, after: 0) on second position")
 	}
 	
-	/// This method do complexy checking of sut.pop method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to pop value from empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some values to get nonempty list to continues test with pop (append 2 values). 3) We pop value from begin of list and result of test must be equal firstValue we appended first and check sut count to be 1 after removing value 3) We pop last value and check list to be empty with zero count values.
+	/// This method do complexy checking of sut.pop method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to pop value from empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some values to get nonempty list to continues test with pop (append 2 values). 3) We pop value from begin of list and result of test must be equal "firstValue" we appended first and check sut count to be 1 after removing value 4) We pop last value and check list to be empty with zero count values.
 	func test_pop_sutShouldDeleteValuesFromEndOfListAndNotContainValuesAtTheEndOfTests() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue

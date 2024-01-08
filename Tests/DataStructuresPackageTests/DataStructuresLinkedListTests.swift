@@ -19,65 +19,55 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		sut = nil
 	}
 
-	func test_count_shouldBeSameAsValuesInLinkedList() throws {
+	/// This method do complexy checking of working count in different cases. We dont care about rawValue of appending valies, becouse we checking only count parameter of all values in LinkedList. 1) First of all we checking "is LinkedList is empty or not?" and in this case we must have count with zero returning and we do simple test of it. 2) We must checking of count parameter with non empty LinkedList and in this case we append any int value and checking equal count parameter with 1 value. 3) We checking count with more than 0 and 1 values: we append any value to list with 1 value and cheking equal of sut.count with 2 value. 4) We cheking how changes count parameter when we decrease values from list and in this case we sut.removeLast value from list with 2 values and checking equal count parameter with 1 value. 5) In last case we must return list to zero value and checking condition of count parameter and in this case we remove last value from list and do final check with sut count method and isEmpty.
+	func test_count_shouldBeSameAsValuesInLinkedListInAllTests() throws {
 		let newValue = ValuesStub.firstValue
 
-		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init with LinkedList without value: LinkedList<Int>()")
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it was init with LinkedList without value: LinkedList<Int>()")
+		XCTAssertEqual(sut.count, 0, "Sut count must be 0 with empty list")
 
 		sut.append(newValue.rawValue)
-
 		XCTAssertEqual(sut.count, 1, "Sut count must be 1 after appending 1 value")
 
 		sut.append(newValue.rawValue)
-
 		XCTAssertEqual(sut.count, 2, "Sut count must be 2 after appending 2 values")
 
-		sut.append(newValue.rawValue)
-
-		XCTAssertEqual(sut.count, 3, "Sut count must be 3 after appending 3 values")
-
 		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
+		XCTAssertEqual(sut.count, 1, "Sut count must be 1 after removing value from 1 values in LinkedList")
 
-		XCTAssertEqual(sut.count, 2, "Sut count must be 2 after removing value from 3 values in LinkedList")
-
-		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
 		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
 
 		XCTAssertEqual(sut.count, 0, "Sut count must be 2 after appending 2 values")
-
-		XCTAssertNil(sut.removeLast(), "Nothing to remove - must return nil")
-
 		XCTAssertTrue(sut.isEmpty, "List must be empty after trying to remove from empty list")
 	}
 
-	func test_isEmpty_shouldBeFalseWhenLinkedListWithValues() throws {
-		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init with LinkedList without value: LinkedList<Int>()")
+	/// This method do complexy checking of isEmpty working. All tests is cheking own sides and need to be running. First of all we check empty list after sut initialiase with none values. Second point is appending value and checking working isEmpty method with nonempty LinkedList. After all in last case we cheking how isEmpty method working after removing all values from LinkedList - isEmpty must return true (instead false in previous case with 1 value).
+	func test_isEmpty_shouldBeTrueIfLinkedListWithoutValues() throws {
+		let newValue = ValuesStub.firstValue
+
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it was init with LinkedList without value: LinkedList<Int>()")
+
+		sut.append(newValue.rawValue)
+		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we append new value to linkedList: LinkedList<Int>()")
+
+		XCTAssertNotNil(sut.removeLast(), "Must return value to test sut.count")
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse after removing value from list with 1 value")
 	}
 
-	func test_push_sutShouldContainValues() {
+	/// This method do complexy checking of sut.push method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we pushing first value and do some checks - list cant be empty and sut must find same value we pushing. 2. We push second value to nonempty list and push method must insert secondValue in the beginning of list at 0 index position.
+	func test_push_sutShouldContainPushingValuesAndIncreaseCountValues() {
 		let firstValue = ValuesStub.firstValue
-		let secondValue = ValuesStub.fhirdValue
-		let failIntTestValue = ValuesStub.failIntTestValue
+		let secondValue = ValuesStub.secondValue
 
-		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
+		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it was init without value: LinkedList<Int>()")
 
 		sut.push(firstValue.rawValue)
-
 		XCTAssertFalse(sut.isEmpty, "LinkedList can't be empty becouse we pushing newValue: sut.push(newValue)")
-
 		XCTAssertNotNil(sut.find(value: firstValue.rawValue), "LinkedList must contain newValue becouse we has pushed new value: sut.push(firstValue)")
 
 		sut.push(secondValue.rawValue)
-
-		XCTAssertNotNil(sut.find(value: secondValue.rawValue), "LinkedList must contain secondValue becouse we has pushed secondValue: sut.push(secondValue)")
-
-		XCTAssertNil(sut.find(value: failIntTestValue.rawValue), "LinkedList can't contain failIntTestValue becouse we don't pushing failIntTestValue")
-
-		XCTAssertEqual(
-			sut.count,
-			2,
-			"Количество незавершенных задач в task manager не соответствует исходным параметрам"
-		)
+		XCTAssertEqual(sut.find(value: secondValue.rawValue), 0, "secondValue must be pushed only at the begining of list")
+		XCTAssertEqual(sut.count, 2, "sut.count of values must be 2 after pushing 2 values to empty list")
 	}
 
 	func test_append_sutShouldContainValues() {

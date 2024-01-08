@@ -54,7 +54,7 @@
             </BuildableReference>
             <SkippedTests>
                <Test
-                  Identifier = "DataStructuresPackageTests">
+                  Identifier = "QueueListTests">
                </Test>
             </SkippedTests>
          </TestableReference>

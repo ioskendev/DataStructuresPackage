@@ -11,30 +11,31 @@ public struct QueueList<T: Equatable> {
 
 	private var linkedList = LinkedList<T>()
 	
-	/// linked list count
+	/// The count of the queue list.
 	public var count: Int {
 		linkedList.count
 	}
 
-	/// Queue list empty status as Bool value, where true - emtu list and false - not empty list
+	/// The empty status of the queue list as a Bool value.
+	/// - Returns: True if the list is empty and False if is not.
 	public var isEmpty: Bool {
 		linkedList.isEmpty
 	}
 	
-	/// Appending value to queue list
-	/// - Parameter value: Equatable value to appending to linked list
+	/// Appending a value to the end of the queue list.
+	/// - Parameter value: An Equatable value to append to the  linked list.
 	public mutating func enqueue(_ element: T) {
 		linkedList.append(element)
 	}
 	
-	/// Cut value from start of the list
-	/// - Returns: Cutting value
+	/// Removing a value from the beginning of the list.
+	/// - Returns: The removed value.
 	public mutating func dequeue() -> T? {
 		linkedList.pop()
 	}
 	
-	/// Adding value to beginning of the list.
-	/// - Returns: Adding value if adding was success (else return nil)
+	/// Peeking a value from the beginning of the list.
+	/// - Returns: The first value from the queue list.
 	public var peek: T? {
 		linkedList.value(at: 0)
 	}

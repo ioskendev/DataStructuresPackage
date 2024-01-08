@@ -112,7 +112,7 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertEqual(sut.count, 3, "Cheking of more then 2 elements existsut count must be 3 becouse we was apended and inserted 3 valies and sut.insert(thirdValue.rawValue, after: 0) on second position")
 	}
 	
-	/// This method do complexy checking of sut.pop method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to pop value from empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some values to get nonempty list to continues test with pop. 3. We insert second value to nonempty list and sut.insert(after: 0) method must insert secondValue after firstValue rawValue. 3) We must to try value between 2 values to exclude append and insert results.
+	/// This method do complexy checking of sut.pop method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to pop value from empty list (it must be nil becouse no values must be found in list). 2) We need to append or push some values to get nonempty list to continues test with pop (append 2 values). 3) We pop value from begin of list and result of test must be equal firstValue we appended first and check sut count to be 1 after removing value 3) We pop last value and check list to be empty with zero count values.
 	func test_pop_sutShouldDeleteValuesFromEndOfListAndNotContainValuesAtTheEndOfTests() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
@@ -133,8 +133,9 @@ final class DataStructuresLinkedListTests: XCTestCase {
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
 	}
-
-	func test_removeLast_sutShouldNotContainValues() {
+	
+	/// This method do complexy checking of sut.removeLast method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to removeLast value from empty list (it must be nil becouse nothing to remove from empty list). 2) We need to append or push some values to get nonempty list to continues test with removeLast method. 3) We call removeLast() method do remove secondValue we was appended to end of list. 4) We call removeLast() method do remove firstValue we was appended befor secondValue and do some check to be empty list.
+	func test_removeLast_shuldRemoveValueFromEndOfListAndSutShouldNotContainValuesInTheEndOfTests() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
 
@@ -143,53 +144,45 @@ final class DataStructuresLinkedListTests: XCTestCase {
 		XCTAssertNil(sut.removeLast(), "Nothing to remove from empty list")
 
 		sut.append(firstValue.rawValue)
-
-		XCTAssertEqual(sut.count, 1, "sut count must be 1 after appending 1 value")
-
 		sut.append(secondValue.rawValue)
-
 		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
 
-		XCTAssertEqual(sut.removeLast(), secondValue.rawValue, "Must cut value from end of list. pop() must returns secondValue from list")
-
-		XCTAssertEqual(sut.count, 1, "sut count must be 1 after sut.pop()")
+		XCTAssertEqual(sut.removeLast(), secondValue.rawValue, "Must cut value from end of list. removeLast() must returns secondValue from list")
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after sut.removeLast()")
 
 		XCTAssertEqual(sut.removeLast(), firstValue.rawValue, "Must cut value from end of list. pop() must returns firstValue from list")
-
 		XCTAssertEqual(sut.count, 0, "sut count must be 0 after removing 2 values from 2 values list")
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
 	}
-
-	func test_removeAfterIndex_sutShouldNotContainValues() {
+	
+	/// This method do complexy checking of sut.removeAfterIndex method with starting from empty list. 1) After checking sut.isEmpty(must be true - empty) we try to sut.remove(after: 0) value from empty list (it must be nil becouse nothing to remove from empty list). 2) We need to append some values to get nonempty list to continues test with removeLast method (appending 2 values). 3) We try to remove value from index out of range. 4) .
+	func test_removeAfterIndex_mustRemoveValueAfteerTargetIndexAndSutShouldContainOneValueAtTheEndOfTests() {
 		let firstValue = ValuesStub.firstValue
 		let secondValue = ValuesStub.secondValue
+		let thirdValue = ValuesStub.fhirdValue
 
 		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse it's was init without value: LinkedList<Int>()")
 
 		XCTAssertNil(sut.remove(after: 0), "Nothing to remove from empty list")
-		XCTAssertNil(sut.remove(after: 10), "Nothing to remove from empty list")
-		XCTAssertNil(sut.remove(after: -10), "Nothing to remove from empty list")
 
 		sut.append(firstValue.rawValue)
-
-		XCTAssertEqual(sut.count, 1, "sut count must be 1 after appending 1 value")
-
 		sut.append(secondValue.rawValue)
+		sut.append(thirdValue.rawValue)
 
-		XCTAssertEqual(sut.count, 2, "sut count must be 2 after appending 2 values")
-
-		XCTAssertNotEqual(sut.remove(after: -1), firstValue.rawValue, "Must nothing to delete becouse it is not valid index")
+		XCTAssertEqual(sut.count, 3, "sut count must be 3 after appending 3 values")
 
 		XCTAssertEqual(sut.remove(after: 0), secondValue.rawValue, "Must delete secondValue becouse it was append after firstValue with zero(0) index")
+		XCTAssertEqual(sut.count, 2, "sut count must be 2 after removing")
 
-		XCTAssertEqual(sut.count, 1, "sut count must be 1 after removing")
+		XCTAssertEqual(sut.remove(after: 0), thirdValue.rawValue, "Must delete thirdValue becouse it was append after secondValue we removing in last test")
+		XCTAssertEqual(sut.count, 1, "sut count must be 1 after removing 2 values from 3 values list")
 
-		XCTAssertEqual(sut.removeLast(), firstValue.rawValue, "Must cut value from end of list. pop() must returns firstValue from list")
+		XCTAssertNil(sut.remove(after: 0), "Must return nil, becouse after value with index 0 we was removed all values")
+		XCTAssertNotEqual(sut.remove(after: -1), firstValue.rawValue, "Must nothing to delete becouse index out of list range and cant delete element after -1 index with 0 index")
 
-		XCTAssertEqual(sut.count, 0, "sut count must be 0 after removing 2 values from 2 values list")
-
-		XCTAssertTrue(sut.isEmpty, "LinkedList must be empty becouse all values was deleted from list")
+		XCTAssertEqual(sut.count, 1, "sut count must stay with 1 value after trying to remove after value in onevalue list")
+		XCTAssertFalse(sut.isEmpty, "LinkedList canэ't be empty becouse sut.remove(after: ) can't delete first element")
 	}
 
 	func test_removeFirstValue_sutShouldNotContainValues() {
